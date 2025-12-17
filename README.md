@@ -1,6 +1,6 @@
 # mojiko-pedestrian-simulation
 
-# Installation 
+# Dockerを使って仮想環境内で利用する方法
 ## WSL で systemd を有効化
 Ubuntu（WSL）で：
 ```bash 
@@ -42,7 +42,7 @@ docker run --rm -it \
   -e XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir \
   -v /mnt/wslg:/mnt/wslg \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  crowdwalk-ubuntu-jdk17
+  ubuntu-py-jdk17
 ```
 
 ## CrowdWalkの実行
@@ -68,4 +68,27 @@ sh quickstart.sh sample/stop-sample2/properties.json -g2 -lError
 exit
 ```
 
-## 
+# launcher内のファイル説明
+【変更不要】
+- base_configs: 具体的なシミュレーションのサンプルデータ置き場
+- diagram.csv: 門司港駅の電車の発着ファイル
+- GuiSimulationLauncher.ini: GUI起動時のシミュレーション表示範囲
+- launcher.sh: シミュレーション起動用シェルスクリプト
+
+【シミュレーション内容の】
+- configs: 人流データや信号制御情報を置く場所
+- GateOperation.rb: シミュレーション内の歩行者のルート制御時に利用されるrubyスクリプト（通行止め and 方向指示）
+- properties.json: シミュレーション設定ファイル
+
+
+# チュートリアルの実行
+```bash
+docker run --rm -it \
+  -e DISPLAY=$DISPLAY \
+  -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+  -e XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir \
+  -v /mnt/wslg:/mnt/wslg \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ./launcher:/launcher \
+  ubuntu-py-jdk17
+```
