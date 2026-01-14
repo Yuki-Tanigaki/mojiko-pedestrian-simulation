@@ -27,21 +27,24 @@ ENV JAVA_OPTS="-Dgroovy.source.encoding=UTF-8 -Dfile.encoding=UTF-8"
 ENV GRADLE_OPTS="-Dfile.encoding=UTF-8"
 ENV GROOVY_OPTS="-Dgroovy.source.encoding=UTF-8"
 
-# ---- CrowdWalk を取得 ----
+# 作業ディレクトリ
 WORKDIR /opt
 
-# 更新しやすいようにブランチ/タグを指定可能にする
+# ---- CrowdWalk を取得 ----
+# ブランチ/タグを指定
 ARG CROWDWALK_REF=master
 
 RUN git clone --depth 1 --branch "${CROWDWALK_REF}" https://github.com/crest-cassia/CrowdWalk.git
 
-# ---- ビルド（質問の ./gradlew に相当）----
+# ---- ビルド ----
 WORKDIR /opt/CrowdWalk/crowdwalk
 
 # gradlew を確実に実行可能に
 RUN chmod +x ./gradlew
 
-# 依存取得＆ビルド（必要に応じて tasks/build に置き換え可）
+# 依存取得＆ビルド
 RUN ./gradlew --no-daemon
 
+WORKDIR /work
 CMD ["bash"]
+

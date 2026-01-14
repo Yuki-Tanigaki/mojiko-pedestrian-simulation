@@ -31,7 +31,7 @@ docker info | grep -i "Operating System"
 
 ## Docker イメージの作成
 ```bash 
-docker build -t ubuntu-py-jdk17 .
+docker build -t crowdwalk:local .
 ```
 
 ## Docker コンテナの起動
@@ -42,25 +42,26 @@ docker run --rm -it \
   -e XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir \
   -v /mnt/wslg:/mnt/wslg \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  ubuntu-py-jdk17
+  -v "$(pwd)/launcher:/work/launcher" \
+  crowdwalk:local
 ```
 
 ## CrowdWalkの実行
 確認：
 ```bash
-sh quickstart.sh -h
+sh launcher/launcher.sh -h
 ```
 -> CrowdWalk のヘルプが表示されれば正常
 
 GUIを使わないサンプルシナリオの実行：
 ```bash
-sh quickstart.sh sample/stop-sample2/properties.json -c -lError
+sh launcher/launcher.sh launcher/properties.json -c -lError
 ```
 
 GUIを使ったサンプルシナリオの実行：
 （表示が出るまで時間がかかるため注意）
 ```bash
-sh quickstart.sh sample/stop-sample2/properties.json -g2 -lError
+sh launcher/launcher.sh launcher/properties.json -g2 -lError
 ```
 
 ## Docker コンテナを終了
